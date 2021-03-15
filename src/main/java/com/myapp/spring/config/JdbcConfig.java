@@ -1,3 +1,4 @@
+
 package com.myapp.spring.config;
 
 import javax.sql.DataSource;
@@ -11,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class JdbcConfig {
 
 	@Bean
-	@Autowired
+	@Autowired(required = true)
 
 	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
 

@@ -39,4 +39,11 @@ public class ResponseType {
 		this.run = run;
 	}
 
+	public ResponseType(String run) {
+		this.run = run;
+	}
+
+	public ResponseType() {
+	}
+
 }

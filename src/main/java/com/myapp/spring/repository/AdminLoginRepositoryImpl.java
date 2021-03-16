@@ -31,6 +31,7 @@ public class AdminLoginRepositoryImpl implements AdminLoginRepository {
 				AdminData adminData = new AdminData();
 				while (rs.next()) {
 					adminData.setPassword(rs.getString("password"));
+					adminData.setUsername(rs.getString("username"));
 				}
 				return adminData;
 

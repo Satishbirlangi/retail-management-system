@@ -1,4 +1,4 @@
-package com.myapp.spring.test.login;
+package com.myapp.spring.tdd.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;

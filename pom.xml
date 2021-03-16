@@ -14,8 +14,31 @@
 	<name>retail-management-system</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
+	
 		<java.version>11</java.version>
 	</properties>
+	
+<distributionManagement>
+  <repository>
+    <id>release</id>
+    <name>releases</name>
+    <url>http://localhost:8081/artifactory/libs-release-local</url>
+  </repository>
+  <snapshotRepository>
+    <id>snapshot</id>
+    <name>snapshots</name>
+    <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+  </snapshotRepository>
+</distributionManagement>
+
+<scm>
+  <connection>scm:git:git@github.com:Satishbirlangi/retail-management-system.git</connection>
+  <developerConnection>scm:git@github.com:Satishbirlangi/retail-management-system.git</developerConnection>
+  <url>scm:git@github.com:Satishbirlangi/retail-management-system.git</url>
+  <tag>HEAD</tag>
+</scm>
+
+	
 	<dependencies>
 	
 		<dependency>

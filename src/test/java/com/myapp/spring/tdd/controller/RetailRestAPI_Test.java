@@ -1,5 +1,5 @@
 
-package com.myapp.spring.test.retailapi;
+package com.myapp.spring.tdd.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.doReturn;

@@ -1,4 +1,4 @@
-package com.myapp.spring.service;
+package com.myapp.spring.tdd.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -15,6 +15,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.myapp.spring.model.AdminData;
+import com.myapp.spring.responseType.ResponseType;
 
 @SpringBootTest
 
@@ -27,9 +28,14 @@ public class AdminLoginRestAPITest {
 
 	@MockBean
 	private AdminLoginRestAPITest service;
+	ResponseType r = new ResponseType();
 	MockHttpServletRequest m;
 	@Autowired
 	private MockMvc mockMvc;
+	// private static File DATA_JSON = Paths.get("src", "test", "resources",
+	// "retaildata.json").toFile();
+
+	// List<RetailStore> products[] = null;
 	AdminData user[] = null;
 	AdminData ad = new AdminData();
 
@@ -48,16 +54,16 @@ public class AdminLoginRestAPITest {
 	}
 
 	@Test
-	public void ValidatingNonAdmin() throws Exception {
+	public void ValidatingnonAdmin() throws Exception {
 		ad.setUsername("admin");
 		ad.setPassword("admin");
-		var k = "{\r\n" + "     \"username\":\"admdin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
+		var k = "{\r\n" + "     \"username\":\"admkin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
 		// doReturn(r).when(service).validateLogin(ud, m);
 		var expectedjson = "{\r\n" + "  \"errcode\": 404,\r\n" + "  \"status\": \"failure\",\r\n"
 				+ "  \"message\": \"InValid Admin\",\r\n" + "  \"run\": null\r\n" + "}";
-
 		mockMvc.perform(post("/retail_store/validate-admin").contentType(MediaType.APPLICATION_JSON).content(k))
 				// .accept(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(expectedjson));
 	}
+
 }

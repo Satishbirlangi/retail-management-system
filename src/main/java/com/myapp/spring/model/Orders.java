@@ -2,12 +2,10 @@
 package com.myapp.spring.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.jdbc.core.JdbcTemplate;
 
 public class Orders {
 
 	@Autowired
-	// private JdbcTemplate jdbcTemplate;
 
 	private String username;
 
@@ -25,12 +23,12 @@ public class Orders {
 
 	private Integer price;
 
-	private String expiry_Date;
+	private String expiryDate;
 
 	private Integer count;
 
 	public Orders(String username, Integer id, String category, String type, String name, String brand, String quantity,
-			Integer price, String expiry_Date, Integer count) {
+			Integer price, String expiryDate, Integer count) {
 
 		this.username = username;
 		this.id = id;
@@ -40,7 +38,7 @@ public class Orders {
 		this.brand = brand;
 		this.quantity = quantity;
 		this.price = price;
-		this.expiry_Date = expiry_Date;
+		this.expiryDate = expiryDate;
 		this.count = count;
 	}
 
@@ -112,11 +110,11 @@ public class Orders {
 	}
 
 	public String getExpiry_Date() {
-		return expiry_Date;
+		return expiryDate;
 	}
 
-	public void setExpiry_Date(String expiry_Date) {
-		this.expiry_Date = expiry_Date;
+	public void setExpiry_Date(String expiryDate) {
+		this.expiryDate = expiryDate;
 	}
 
 	public Integer getCount() {

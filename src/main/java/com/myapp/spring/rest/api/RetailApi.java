@@ -44,15 +44,6 @@ public class RetailApi {
 		return repository.findByName(Category, Type, Name);
 	}
 
-	/*
-	 * @PostMapping("/{Category}/{Type}/{Name}/addtocart/signup") public Credentials
-	 * saveCredentials(@PathVariable("Category") String
-	 * Category, @PathVariable("Type") String Type,
-	 * 
-	 * @PathVariable("Name") String Name, @RequestBody Credentials Cred) {
-	 * 
-	 * return repository.saveCredentials(Category, Type, Name, Cred); }
-	 */
 	@PostMapping("/search/{Category}/{Type}/{Name}/addtocart")
 	public Orders placedOrder(@PathVariable("Category") String Category, @PathVariable("Type") String Type,
 			@PathVariable("Name") String Name, @RequestBody Orders Ord) {

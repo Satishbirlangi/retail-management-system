@@ -19,10 +19,6 @@ import com.myapp.spring.responseType.ResponseType;
 
 @SpringBootTest
 
-//spring context
-//environment
-//loading the beans
-//start the embeded tomcat server
 @AutoConfigureMockMvc
 public class AdminLoginRestAPITest {
 
@@ -32,10 +28,7 @@ public class AdminLoginRestAPITest {
 	MockHttpServletRequest m;
 	@Autowired
 	private MockMvc mockMvc;
-	// private static File DATA_JSON = Paths.get("src", "test", "resources",
-	// "retaildata.json").toFile();
 
-	// List<RetailStore> products[] = null;
 	AdminData user[] = null;
 	AdminData ad = new AdminData();
 
@@ -43,13 +36,13 @@ public class AdminLoginRestAPITest {
 	public void ValidatingAdmin() throws Exception {
 		ad.setUsername("admin");
 		ad.setPassword("admin");
-		var k = "{\r\n" + "     \"username\":\"admin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
-		// doReturn(r).when(service).validateLogin(ud, m);
-		var expectedjson = "{\r\n" + "  \"errcode\": 200,\r\n" + "  \"status\": \"success\",\r\n"
+		String k = "{\r\n" + "     \"username\":\"admin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
+
+		String expectedjson = "{\r\n" + "  \"errcode\": 200,\r\n" + "  \"status\": \"success\",\r\n"
 				+ "  \"message\": \"Valid Admin\",\r\n" + "  \"run\": null\r\n" + "}";
 
 		mockMvc.perform(post("/retail_store/validate-admin").contentType(MediaType.APPLICATION_JSON).content(k))
-				// .accept(MediaType.APPLICATION_JSON))
+
 				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(expectedjson));
 	}
 
@@ -57,12 +50,12 @@ public class AdminLoginRestAPITest {
 	public void ValidatingnonAdmin() throws Exception {
 		ad.setUsername("admin");
 		ad.setPassword("admin");
-		var k = "{\r\n" + "     \"username\":\"admkin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
-		// doReturn(r).when(service).validateLogin(ud, m);
-		var expectedjson = "{\r\n" + "  \"errcode\": 404,\r\n" + "  \"status\": \"failure\",\r\n"
+		String k = "{\r\n" + "     \"username\":\"admkin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
+
+		String expectedjson = "{\r\n" + "  \"errcode\": 404,\r\n" + "  \"status\": \"failure\",\r\n"
 				+ "  \"message\": \"InValid Admin\",\r\n" + "  \"run\": null\r\n" + "}";
 		mockMvc.perform(post("/retail_store/validate-admin").contentType(MediaType.APPLICATION_JSON).content(k))
-				// .accept(MediaType.APPLICATION_JSON))
+
 				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(expectedjson));
 	}
 

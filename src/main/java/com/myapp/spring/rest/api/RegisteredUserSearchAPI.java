@@ -18,7 +18,7 @@ import com.myapp.spring.repository.RetailStoreRepository;
 import com.myapp.spring.repository.RetailStoreRepositoryImpl;
 
 @RestController
-@RequestMapping("retail_store")
+@RequestMapping("/retail_store")
 
 public class RegisteredUserSearchAPI {
 	@Autowired
@@ -81,7 +81,7 @@ public class RegisteredUserSearchAPI {
 		return null;
 	}
 
-	@PostMapping("reg_search/{Category}/{Type}/{Name}/RegUseraddtocart")
+	@PostMapping("/reg_search/{Category}/{Type}/{Name}/RegUseraddtocart")
 	public Orders reguserplacedOrder(@PathVariable("Category") String Category, @PathVariable("Type") String Type,
 			@PathVariable("Name") String Name, @RequestBody Orders Ord, HttpServletRequest request) {
 		Object oun = Ord.getUsername();

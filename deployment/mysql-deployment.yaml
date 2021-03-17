@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  #type: NodePort
+  ports:
+    - port: 3306
+      #nodePort: 31000
+  selector:
+    app: mysql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - image: mysql:8
+          name: mysql
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: initdb
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+        - name: initdb
+          configMap:
+            name: mysql-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  MYSQL_DATABASE: petdb
+  MYSQL_DATABASE_URL: jdbc:mysql://mysql/devops
+  initdb.sql: |
+    use retail;
+     CREATE TABLE retail_store(Id INT NOT NULL,Category TEXT,Type TEXT,Name TEXT,Brand TEXT,Quantity TEXT,Price INT,Expiry_Date DATE,Stock INT,PRIMARY KEY(id));
+     INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2111,"Snacks-Beverages","Biscuits","Dark Fantacy Chaco fills","Sunfeast","300gm",77,"2023-01-29",5);
+     INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3121,"Packaged-Foods","Breakfast Foods","Cornflakes","Kellog's","1kg",149,"2022-02-16",220);
+     INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4111,"Personal Care","HairCare","Hair Oil","Parachute","1lit",327,"2022-12-21",30);
+     

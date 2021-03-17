@@ -1,7 +1,7 @@
 node {
 def mvnHome
 stage('Prepare') {
-git url: 'https://github.com/Satishbirlangi/retail-management-system.git', branch: 'himani'
+git url: 'https://github.com/Satishbirlangi/retail-management-system.git', branch: 'develop'
 mvnHome = tool 'maven'
 }
 stage('Build') {

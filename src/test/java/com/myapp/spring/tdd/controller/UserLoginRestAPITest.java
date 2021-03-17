@@ -42,10 +42,7 @@ public class UserLoginRestAPITest {
 	MockHttpServletRequest m;
 	@Autowired
 	private MockMvc mockMvc;
-	// private static File DATA_JSON = Paths.get("src", "test", "resources",
-	// "retaildata.json").toFile();
 
-	// List<RetailStore> products[] = null;
 	UserData user[] = null;
 	UserData ud = new UserData();
 

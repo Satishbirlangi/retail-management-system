@@ -2,108 +2,108 @@ package com.myapp.spring.model;
 
 public class RetailStore {
 
-	private Integer id;
+	private Integer itemId;
 
-	private String category;
+	private String itemCategory;
 
 	public Integer getId() {
-		return id;
+		return itemId;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		itemId = id;
 	}
 
 	public String getCategory() {
-		return category;
+		return itemCategory;
 	}
 
 	public void setCategory(String category) {
-		this.category = category;
+		itemCategory = category;
 	}
 
 	public String getType() {
-		return type;
+		return itemType;
 	}
 
 	public void setType(String type) {
-		this.type = type;
+		itemType = type;
 	}
 
 	public String getName() {
-		return name;
+		return itemName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		itemName = name;
 	}
 
 	public String getBrand() {
-		return brand;
+		return itemBrand;
 	}
 
 	public void setBrand(String brand) {
-		this.brand = brand;
+		itemBrand = brand;
 	}
 
 	public String getQuantity() {
-		return quantity;
+		return itemQuantity;
 	}
 
 	public void setQuantity(String quantity) {
-		this.quantity = quantity;
+		itemQuantity = quantity;
 	}
 
 	public Integer getPrice() {
-		return price;
+		return itemPrice;
 	}
 
 	public void setPrice(Integer price) {
-		this.price = price;
+		itemPrice = price;
 	}
 
 	public String getExpiry_Date() {
-		return expiry_Date;
+		return itemExpiryDate;
 	}
 
-	public void setExpiry_Date(String expiry_Date) {
-		this.expiry_Date = expiry_Date;
+	public void setExpiry_Date(String expiryDate) {
+		itemExpiryDate = expiryDate;
 	}
 
 	public Integer getStock() {
-		return stock;
+		return itemStock;
 	}
 
 	public void setStock(Integer stock) {
-		this.stock = stock;
+		itemStock = stock;
 	}
 
 	public RetailStore(Integer id, String category, String type, String name, String brand, String quantity,
-			Integer price, String expiry_Date, Integer stock) {
-		this.id = id;
-		this.category = category;
-		this.type = type;
-		this.name = name;
-		this.brand = brand;
-		this.quantity = quantity;
-		this.price = price;
-		this.expiry_Date = expiry_Date;
-		this.stock = stock;
+			Integer price, String expiryDate, Integer stock) {
+		itemId = id;
+		itemCategory = category;
+		itemType = type;
+		itemName = name;
+		itemBrand = brand;
+		itemQuantity = quantity;
+		itemPrice = price;
+		itemExpiryDate = expiryDate;
+		itemStock = stock;
 	}
 
-	private String type;
+	private String itemType;
 
-	private String name;
+	private String itemName;
 
-	private String brand;
+	private String itemBrand;
 
-	private String quantity;
+	private String itemQuantity;
 
-	private Integer price;
+	private Integer itemPrice;
 
-	private String expiry_Date;
+	private String itemExpiryDate;
 
-	private Integer stock;
+	private Integer itemStock;
 
 	public RetailStore() {
 	}

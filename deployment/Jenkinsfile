@@ -56,5 +56,5 @@ node {
          bat(/"${mvnHome}\bin\mvn" k8s:deploy/)
       }
         }
-    }
+    
 

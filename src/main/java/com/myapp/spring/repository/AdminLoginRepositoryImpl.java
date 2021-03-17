@@ -20,7 +20,7 @@ public class AdminLoginRepositoryImpl implements AdminLoginRepository {
 	public AdminData validateLoggedInAdmin(String userName) {
 		// TODO Auto-generated method stub
 		System.out.println("input login id:" + userName);
-		String SQL = "SELECT * FROM ADMINCREDENTIALS WHERE USERNAME = ?";
+		String SQL = "SELECT * FROM admincredentials WHERE USERNAME = ?";
 
 		return jdbcTemplate.query(SQL, new Object[] { userName }, new ResultSetExtractor<AdminData>() {
 

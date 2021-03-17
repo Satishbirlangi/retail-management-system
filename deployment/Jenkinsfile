@@ -33,14 +33,12 @@ node {
       } else {
          bat(/"${mvnHome}\bin\mvn" sonar:sonar/)
       }
-   }
-        
-		
+   }	
 		stage ('Build Docker Image') {
            if (isUnix()) {
          sh "'${mvnHome}/bin/mvn' k8s:build k8s:resource"
       } else {
-         bat(/'mvn k8s:build k8s:resource'/)
+         bat(/"${mvnHome}\bin\mvn" k8s:build k8s:resource/)
       }
                 
             
@@ -52,8 +50,10 @@ node {
          sh "'${mvnHome}/bin/mvn' k8s:deploy"
             }
             else {
-         bat(/'mvn k8s:deploy'/)
+         bat(/"${mvnHome}\bin\mvn" k8s:deploy/)
       }
-        }
+        
+		}
+		
     }
 

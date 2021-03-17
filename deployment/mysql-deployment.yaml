@@ -190,3 +190,5 @@ data:
     INSERT INTO Credentials(Username,Password) Values ("admin","admin");
     CREATE TABLE Orders(Username varchar(10),Id INT NOT NULL,Category TEXT,Type TEXT,Name TEXT,Brand TEXT,Quantity TEXT,Price INT,Expiry_Date DATE,Count INT);
     CREATE TABLE admincredentials(Username varchar(10) UNIQUE,Password varchar(10));
+    INSERT INTO admincredentials(Username,Password) Values ("admin","admin");
+    

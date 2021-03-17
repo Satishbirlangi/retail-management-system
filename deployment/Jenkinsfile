@@ -40,7 +40,7 @@ node {
            if (isUnix()) {
          sh "'${mvnHome}/bin/mvn' k8s:build k8s:resource"
       } else {
-         bat(/"${mvnHome}\bin\mvn" k8s:build k8s:resource/)
+         bat(/'mvn k8s:build k8s:resource'/)
       }
                 
             
@@ -52,7 +52,7 @@ node {
          sh "'${mvnHome}/bin/mvn' k8s:deploy"
             }
             else {
-         bat(/"${mvnHome}\bin\mvn" k8s:deploy/)
+         bat(/'mvn k8s:deploy'/)
       }
         }
     }

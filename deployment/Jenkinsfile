@@ -1,9 +1,8 @@
 node {
-        docker { image 'node:14-alpine' }
-    }
+        
    def mvnHome
    stage('Prepare') {
-      git url: 'https://github.com/Satishbirlangi/retail-management-system.git', branch: 'himanirajput'
+      git url: 'https://github.com/rajatmshukla/ABCAirline_TeamB.git', branch: 'himanirajput'
       mvnHome = tool 'maven'
    }
 
@@ -56,5 +55,5 @@ node {
          bat(/"${mvnHome}\bin\mvn" k8s:deploy/)
       }
         }
-    
+    }
 

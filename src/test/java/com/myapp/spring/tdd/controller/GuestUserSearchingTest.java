@@ -42,18 +42,14 @@ public class GuestUserSearchingTest {
 	public void SearchingByCategory() throws Exception {
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}", "Cooking_Essentials"))
-				// .accept(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.*", isA(ArrayList.class)));
 	}
 
 	@Test
 	public void SearchingByType() throws Exception {
 
-		// ListRetailStore
-
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}", "Cooking_Essentials", "Rice"))
-				// .accept(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.*", isA(ArrayList.class)));
 	}
 
@@ -61,17 +57,13 @@ public class GuestUserSearchingTest {
 	public void SearchingByName() throws Exception {
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}/{Name}",
-				"Cooking_Essentials", "Rice", "BasmatiRice"))
-				// .accept(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.*", isA(ArrayList.class)));
+				"Cooking_Essentials", "Rice", "BasmatiRice")).andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.*", isA(ArrayList.class)));
 	}
 
 	@Test
 	public void TestingAddtocartforguestuser() throws Exception {
 
-		// ListRetailStore
-
-		// doReturn(r).when(service).findAll();
 		Orders o = new Orders();
 		RetailStore rt = new RetailStore();
 		o.setId(1111);
@@ -92,7 +84,6 @@ public class GuestUserSearchingTest {
 				+ "    \"brand\": \"Fortune\",\r\n" + "    \"count\": 5\r\n" + "  }";
 		mockMvc.perform(MockMvcRequestBuilders.post("/retail_store/search/{Category}/{Type}/{Name}/addtocart",
 				rt.getCategory(), rt.getType(), rt.getName(), o, m).contentType(MediaType.APPLICATION_JSON).content(pl))
-				// .accept(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk());
 
 	}

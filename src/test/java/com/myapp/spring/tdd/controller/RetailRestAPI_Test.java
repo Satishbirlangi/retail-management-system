@@ -34,10 +34,6 @@ import com.myapp.spring.repository.RetailStoreRepository;
 
 @SpringBootTest
 
-//spring context
-//environment
-//loading the beans
-//start the embeded tomcat server
 @AutoConfigureMockMvc
 public class RetailRestAPI_Test {
 
@@ -54,8 +50,6 @@ public class RetailRestAPI_Test {
 	@BeforeEach
 	void setup() throws JsonParseException, JsonMappingException, IOException {
 		System.out.println("running");
-		// products = (List<RetailStore>[]) new ObjectMapper().readValue(DATA_JSON,
-		// RetailStore[].class);
 		products = new ObjectMapper().readValue(DATA_JSON, RetailStore[].class);
 
 	}
@@ -83,20 +77,11 @@ public class RetailRestAPI_Test {
 		rt.setQuantity("5kg");
 		rt.setStock(90);
 		r.add(rt);
-		// r.add("category","CookingEssentials");
-
-		// prepared mock service method
 
 		doReturn(r).when(service).findByCategory(rt.getCategory());
 
-		// perform get request
-
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}", "Cooking_Essentials"))
-				// .andExpect(status().isOk())//.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andDo(print())
-				// validate response body
-
-				// {"id":1,"airlines":"Airindia","distance":789}
 
 				.andExpect(jsonPath("$[0].category", is("Cooking_Essentials"))).andExpect(jsonPath("$[0].id", is(1111)))
 				.andExpect(jsonPath("$[0].brand", is("Fortune"))).andExpect(jsonPath("$[0].price", is(265)))
@@ -104,21 +89,12 @@ public class RetailRestAPI_Test {
 				.andExpect(jsonPath("$[0].stock", is(90))).andExpect(jsonPath("$[0].quantity", is("5kg")))
 				.andExpect(jsonPath("$[0].expiry_Date", is("2022-09-13T07:00:00.000+00:00")));
 
-		/*
-		 * is(" {\r\n" + "    \"id\": 1111,\r\n" +
-		 * "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"price\": 265,\r\n" +
-		 * "    \"brand\": \"Fortune\",\r\n" +
-		 * "    \"expiry_Date\": \"2022-09-13T07:00:00.000+00:00\",\r\n" +
-		 * "    \"quantity\": \"5kg\",\r\n" + "    \"name\": \"BasmatiRice\",\r\n" +
-		 * "    \"type\": \"Rice\",\r\n" + " \"stock\":90\r\n" + "}")));
-		 */
 	}
 
 	@Test
 	@DisplayName("RetailRestAPI Testing with Type")
 	public void TestingType() throws Exception {
 
-		// Prepared mock flight
 		RetailStore rt = new RetailStore();
 		List<RetailStore> r = new ArrayList<RetailStore>();
 
@@ -132,21 +108,12 @@ public class RetailRestAPI_Test {
 		rt.setQuantity("5kg");
 		rt.setStock(90);
 		r.add(rt);
-		// r.add("category","CookingEssentials");
-
-		// prepared mock service method
 
 		doReturn(r).when(service).findByType(rt.getCategory(), rt.getType());
 
-		// perform get request
-
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}", "Cooking_Essentials", "Rice"))
-				// .andExpect(status().isOk())//.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andDo(print())
-				// validate response body
-
-				// {"id":1,"airlines":"Airindia","distance":789}
 
 				.andExpect(jsonPath("$[0].category", is("Cooking_Essentials"))).andExpect(jsonPath("$[0].id", is(1111)))
 				.andExpect(jsonPath("$[0].brand", is("Fortune"))).andExpect(jsonPath("$[0].price", is(265)))
@@ -154,14 +121,6 @@ public class RetailRestAPI_Test {
 				.andExpect(jsonPath("$[0].stock", is(90))).andExpect(jsonPath("$[0].quantity", is("5kg")))
 				.andExpect(jsonPath("$[0].expiry_Date", is("2022-09-13T07:00:00.000+00:00")));
 
-		/*
-		 * is(" {\r\n" + "    \"id\": 1111,\r\n" +
-		 * "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"price\": 265,\r\n" +
-		 * "    \"brand\": \"Fortune\",\r\n" +
-		 * "    \"expiry_Date\": \"2022-09-13T07:00:00.000+00:00\",\r\n" +
-		 * "    \"quantity\": \"5kg\",\r\n" + "    \"name\": \"BasmatiRice\",\r\n" +
-		 * "    \"type\": \"Rice\",\r\n" + " \"stock\":90\r\n" + "}")));
-		 */
 	}
 
 	@Test
@@ -188,37 +147,18 @@ public class RetailRestAPI_Test {
 		rt.setStock(90);
 		r.add(rt);
 		r2.add(rt2);
-		// r.add("category","CookingEssentials");
-
-		// prepared mock service method
 
 		doReturn(r).when(service).findByName(rt.getCategory(), rt.getType(), rt.getName());
 		doReturn(r2).when(service).findByName(rt2.getCategory(), rt2.getType(), rt2.getName());
 
-		// perform get request
-
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}/{Name}",
-				"Cooking_Essentials", "Rice", "BasmatiRice"))
-				// .andExpect(status().isOk())//.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-				.andDo(print())
-				// validate response body
-
-				// {"id":1,"airlines":"Airindia","distance":789}
+				"Cooking_Essentials", "Rice", "BasmatiRice")).andDo(print())
 
 				.andExpect(jsonPath("$[0].category", is("Cooking_Essentials"))).andExpect(jsonPath("$[0].id", is(1111)))
 				.andExpect(jsonPath("$[0].brand", is("Fortune"))).andExpect(jsonPath("$[0].price", is(265)))
 				.andExpect(jsonPath("$[0].name", is("BasmatiRice"))).andExpect(jsonPath("$[0].type", is("Rice")))
 				.andExpect(jsonPath("$[0].stock", is(90))).andExpect(jsonPath("$[0].quantity", is("5kg")))
 				.andExpect(jsonPath("$[0].expiry_Date", is("2022-09-13T07:00:00.000+00:00")));
-
-		/*
-		 * is(" {\r\n" + "    \"id\": 1111,\r\n" +
-		 * "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"price\": 265,\r\n" +
-		 * "    \"brand\": \"Fortune\",\r\n" +
-		 * "    \"expiry_Date\": \"2022-09-13T07:00:00.000+00:00\",\r\n" +
-		 * "    \"quantity\": \"5kg\",\r\n" + "    \"name\": \"BasmatiRice\",\r\n" +
-		 * "    \"type\": \"Rice\",\r\n" + " \"stock\":90\r\n" + "}")));
-		 */
 	}
 
 	@Test
@@ -254,22 +194,7 @@ public class RetailRestAPI_Test {
 		rt1.setStock(5);
 		r.add(rt1);
 
-		// rt.setCategory("Personal Care");
-		// r.add(rt);
-
-		// rt.setCategory("Packaged-Foods");
-		// r.add(rt);
-
-		// rt.setCategory("Snacks-Beverages");
-		// r.add(rt);
-
-		// r.add("category","CookingEssentials");
-
-		// prepared mock service method
-
 		doReturn(r).when(service).findAll();
-
-		// perform get request
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search"))
 				// .andExpect(status().isOk())//.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -287,30 +212,6 @@ public class RetailRestAPI_Test {
 				.andExpect(jsonPath("$[1].quantity", is("300gm")))
 				.andExpect(jsonPath("$[1].expiry_Date", is("2023-01-29")));
 
-		// validate response body
-
-		// {"id":1,"airlines":"Airindia","distance":789}
-
-		/*
-		 * .andExpect(jsonPath("$[0].category",
-		 * is("Cooking_Essentials"))).andExpect(jsonPath("$[0].id", is(1111)))
-		 * .andExpect(jsonPath("$[0].brand",
-		 * is("Fortune"))).andExpect(jsonPath("$[0].price", is(265)))
-		 * .andExpect(jsonPath("$[0].name",
-		 * is("BasmatiRice"))).andExpect(jsonPath("$[0].type", is("Rice")))
-		 * .andExpect(jsonPath("$[0].stock",
-		 * is(90))).andExpect(jsonPath("$[0].quantity", is("5kg")))
-		 * .andExpect(jsonPath("$[0].expiry_Date",
-		 * is("2022-09-13T07:00:00.000+00:00")));
-		 */
-		/*
-		 * is(" {\r\n" + "    \"id\": 1111,\r\n" +
-		 * "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"price\": 265,\r\n" +
-		 * "    \"brand\": \"Fortune\",\r\n" +
-		 * "    \"expiry_Date\": \"2022-09-13T07:00:00.000+00:00\",\r\n" +
-		 * "    \"quantity\": \"5kg\",\r\n" + "    \"name\": \"BasmatiRice\",\r\n" +
-		 * "    \"type\": \"Rice\",\r\n" + " \"stock\":90\r\n" + "}")));
-		 */
 	}
 
 	@Test
@@ -356,13 +257,6 @@ public class RetailRestAPI_Test {
 		mockMvc.perform(MockMvcRequestBuilders
 				.post("/retail_store/search/Snacks-Beverages/Biscuits/Dark Fantacy Chaco fills/addtocart")
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson1)).andExpect(status().isOk());
-		// .andExpect(jsonPath("$.category", is("Snacks-Beverages")));
 
-		// Mockito.when(employeeService.addEmployee(Mockito.any(Employee.class))).thenReturn(emp);
-
-		// .content(toJSON(ord))
-		// .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-		// .andExpect(status().isOk())
-		// .andExpect(content().contentType("application/json"));
 	}
 }

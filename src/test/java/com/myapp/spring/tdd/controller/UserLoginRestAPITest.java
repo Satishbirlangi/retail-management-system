@@ -28,11 +28,6 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 
 @SpringBootTest
-
-//spring context
-//environment
-//loading the beans
-//start the embeded tomcat server
 @AutoConfigureMockMvc
 public class UserLoginRestAPITest {
 
@@ -52,12 +47,10 @@ public class UserLoginRestAPITest {
 		ud.setUsername("admin");
 		ud.setPassword("admin");
 		String k = "{\r\n" + "     \"username\":\"admin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
-//		doReturn(r).when(service).validateLogin(ud, m);
 		String expectedjson = "{\r\n" + "  \"errcode\": 200,\r\n" + "  \"status\": \"success\",\r\n"
 				+ "  \"message\": \"Valid User\",\r\n" + "  \"run\": null\r\n" + "}";
 
 		mockMvc.perform(post("/retail_store/validate-user").contentType(MediaType.APPLICATION_JSON).content(k))
-				// .accept(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(expectedjson));
 	}
 
@@ -185,7 +178,6 @@ public class UserLoginRestAPITest {
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/retail_store/search/{Category}/{Type}/{Name}/addtocart",
 				rt.getCategory(), rt.getType(), rt.getName(), o, m).contentType(MediaType.APPLICATION_JSON).content(p))
-				// .accept(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk());
 
 	}

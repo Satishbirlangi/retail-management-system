@@ -24,9 +24,6 @@ import com.myapp.spring.model.RetailStore;
 import com.myapp.spring.model.UserData;
 import com.myapp.spring.responseType.ResponseType;
 
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-
 @SpringBootTest
 
 //spring context
@@ -54,9 +51,9 @@ public class UserLoginRestAPITest {
 	public void ValidatingUser() throws Exception {
 		ud.setUsername("admin");
 		ud.setPassword("admin");
-		String k = "{\r\n" + "     \"username\":\"admin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
+		var k = "{\r\n" + "     \"username\":\"admin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
 //		doReturn(r).when(service).validateLogin(ud, m);
-		String expectedjson = "{\r\n" + "  \"errcode\": 200,\r\n" + "  \"status\": \"success\",\r\n"
+		var expectedjson = "{\r\n" + "  \"errcode\": 200,\r\n" + "  \"status\": \"success\",\r\n"
 				+ "  \"message\": \"Valid User\",\r\n" + "  \"run\": null\r\n" + "}";
 
 		mockMvc.perform(post("/retail_store/validate-user").contentType(MediaType.APPLICATION_JSON).content(k))
@@ -159,7 +156,6 @@ public class UserLoginRestAPITest {
 						.isOk());
 
 	}
-
 	/*
 	 * @Test
 	 * 
@@ -235,57 +231,47 @@ public class UserLoginRestAPITest {
 	 * 
 	 * }
 	 */@Test
-	public void TestingAddtocartforguestuser() throws Exception {
+		public void TestingAddtocartforguestuser() throws Exception {
 
-		// ListRetailStore
+			// ListRetailStore
 
-		// doReturn(r).when(service).findAll();
-		Orders o = new Orders();
-		RetailStore rt = new RetailStore();
-		o.setId(1111);
-		o.setCategory("Cooking_Essentials");
-		o.setType("Rice");
-		o.setName("BasmatiRice");
-		o.setBrand("Fortune");
-		o.setCount(50);
-		o.setExpiry_Date("2022-09-13");
-		o.setQuantity("5kg");
-		o.setPrice(265);
-		rt.setCategory("Cooking_Essentials");
-		rt.setType("Rice");
-		rt.setName("BasmatiRice");
-		/*
-		 * var or = "{\r\n" + "  \"username\": null,\r\n" + "  \"id\": 1111,\r\n" +
-		 * "  \"category\": \"Cooking_Essentials\",\r\n" + "  \"type\": \"Rice\",\r\n" +
-		 * "  \"name\": \"BasmatiRice\",\r\n" + "  \"brand\": \"Fortune\",\r\n" +
-		 * "  \"quantity\": \"5kg\",\r\n" + "  \"price\": 265,\r\n" +
-		 * "  \"expiry_Date\": \"2022-09-13\",\r\n" + "  \"count\": 5\r\n" + "}";
-		 */
-//ArrayList<String> p=new ArrayList<>();
-		String p = "{\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
-				+ "    \"type\": \"Rice\",\r\n" + "    \"price\": 265,\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
-				+ "    \"quantity\": \"5kg\",\r\n" + "    \"category\": \"Cooking_Essentials\",\r\n"
-				+ "    \"brand\": \"Fortune\",\r\n" + "    \"count\": 5\r\n" + "  }";
+			// doReturn(r).when(service).findAll();
+			Orders o = new Orders();
+			RetailStore rt = new RetailStore();
+			o.setId(1111);
+			o.setCategory("Cooking_Essentials");
+			o.setType("Rice");
+			o.setName("BasmatiRice");
+			o.setBrand("Fortune");
+			o.setCount(50);
+			o.setExpiry_Date("2022-09-13");
+			o.setQuantity("5kg");
+			o.setPrice(265);
+			rt.setCategory("Cooking_Essentials");
+			rt.setType("Rice");
+			rt.setName("BasmatiRice");
+			var or = "{\r\n" + "  \"username\": null,\r\n" + "  \"id\": 1111,\r\n"
+					+ "  \"category\": \"Cooking_Essentials\",\r\n" + "  \"type\": \"Rice\",\r\n"
+					+ "  \"name\": \"BasmatiRice\",\r\n" + "  \"brand\": \"Fortune\",\r\n" + "  \"quantity\": \"5kg\",\r\n"
+					+ "  \"price\": 265,\r\n" + "  \"expiry_Date\": \"2022-09-13\",\r\n" + "  \"count\": 5\r\n" + "}";
+			var pl = "{\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
+					+ "    \"type\": \"Rice\",\r\n" + "    \"price\": 265,\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
+					+ "    \"quantity\": \"5kg\",\r\n" + "    \"category\": \"Cooking_Essentials\",\r\n"
+					+ "    \"brand\": \"Fortune\",\r\n" + "    \"count\": 5\r\n" + "  }";
+			mockMvc.perform(MockMvcRequestBuilders.post("/retail_store/search/{Category}/{Type}/{Name}/addtocart",
+					rt.getCategory(), rt.getType(), rt.getName(), o, m).contentType(MediaType.APPLICATION_JSON).content(pl))
+					// .accept(MediaType.APPLICATION_JSON))
+					.andDo(print()).andExpect(status().isOk());
 
-		JSONParser parser = new JSONParser();
-		JSONObject json = (JSONObject) parser.parse(p);
-
-		// Read more:
-		// https://www.java67.com/2016/10/3-ways-to-convert-string-to-json-object-in-java.html#ixzz6pGXdgUnj
-		mockMvc.perform(MockMvcRequestBuilders.post("/retail_store/search/{Category}/{Type}/{Name}/addtocart",
-				rt.getCategory(), rt.getType(), rt.getName(), o, m).contentType(MediaType.APPLICATION_JSON).content(p))
-				// .accept(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk());
-
-	}
+		}
 
 	@Test
 	public void ValidatingnonUser() throws Exception {
 		ud.setUsername("admin");
 		ud.setPassword("admin");
-		String k = "{\r\n" + "     \"username\":\"addmin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
+		var k = "{\r\n" + "     \"username\":\"addmin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
 //		doReturn(r).when(service).validateLogin(ud, m);
-		String expectedjson = "{\r\n" + "  \"errcode\": 404,\r\n" + "  \"status\": \"failure\",\r\n"
+		var expectedjson = "{\r\n" + "  \"errcode\": 404,\r\n" + "  \"status\": \"failure\",\r\n"
 				+ "  \"message\": \"InValid User\",\r\n" + "  \"run\": null\r\n" + "}";
 		mockMvc.perform(post("/retail_store/validate-user").contentType(MediaType.APPLICATION_JSON).content(k))
 				// .accept(MediaType.APPLICATION_JSON))

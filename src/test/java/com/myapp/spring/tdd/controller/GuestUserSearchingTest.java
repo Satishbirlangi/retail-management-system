@@ -84,15 +84,11 @@ public class GuestUserSearchingTest {
 
 		// ListRetailStore
 
-<<<<<<< HEAD
-		String expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
-=======
-		/*var expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
->>>>>>> c4da5b11af4971f659e2d8aece20d1dae4405777
+		var expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
 				+ "    \"type\": \"Rice\",\r\n" + "    \"quantity\": \"5kg\",\r\n" + "    \"price\": 265,\r\n"
 				+ "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
 				+ "    \"brand\": \"Fortune\",\r\n" + "    \"stock\": 50\r\n" + "  },\r\n" + "  {\r\n"
-				+ "    \"name\": \"BasmatiRice\"  }\r\n" + "]"; */
+				+ "    \"name\": \"BasmatiRice\"  }\r\n" + "]";
 		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(
@@ -106,15 +102,11 @@ public class GuestUserSearchingTest {
 
 		// ListRetailStore
 
-<<<<<<< HEAD
-		String expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
-=======
-		/*var expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
->>>>>>> c4da5b11af4971f659e2d8aece20d1dae4405777
+		var expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
 				+ "    \"type\": \"Rice\",\r\n" + "    \"quantity\": \"5kg\",\r\n" + "    \"price\": 265,\r\n"
 				+ "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
 				+ "    \"brand\": \"Fortune\",\r\n" + "    \"stock\": 50\r\n" + "  },\r\n" + "  {\r\n"
-				+ "    \"name\": \"BasmatiRice\"  }\r\n" + "]";*/
+				+ "    \"name\": \"BasmatiRice\"  }\r\n" + "]";
 		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}/{Name}",
@@ -143,11 +135,11 @@ public class GuestUserSearchingTest {
 		rt.setCategory("Cooking_Essentials");
 		rt.setType("Rice");
 		rt.setName("BasmatiRice");
-		String or = "{\r\n" + "  \"username\": null,\r\n" + "  \"id\": 1111,\r\n"
+		var or = "{\r\n" + "  \"username\": null,\r\n" + "  \"id\": 1111,\r\n"
 				+ "  \"category\": \"Cooking_Essentials\",\r\n" + "  \"type\": \"Rice\",\r\n"
 				+ "  \"name\": \"BasmatiRice\",\r\n" + "  \"brand\": \"Fortune\",\r\n" + "  \"quantity\": \"5kg\",\r\n"
 				+ "  \"price\": 265,\r\n" + "  \"expiry_Date\": \"2022-09-13\",\r\n" + "  \"count\": 5\r\n" + "}";
-		String pl = "{\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
+		var pl = "{\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
 				+ "    \"type\": \"Rice\",\r\n" + "    \"price\": 265,\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
 				+ "    \"quantity\": \"5kg\",\r\n" + "    \"category\": \"Cooking_Essentials\",\r\n"
 				+ "    \"brand\": \"Fortune\",\r\n" + "    \"count\": 5\r\n" + "  }";

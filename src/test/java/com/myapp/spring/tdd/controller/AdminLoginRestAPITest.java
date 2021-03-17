@@ -43,9 +43,9 @@ public class AdminLoginRestAPITest {
 	public void ValidatingAdmin() throws Exception {
 		ad.setUsername("admin");
 		ad.setPassword("admin");
-		String k = "{\r\n" + "     \"username\":\"admin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
+		var k = "{\r\n" + "     \"username\":\"admin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
 		// doReturn(r).when(service).validateLogin(ud, m);
-		String expectedjson = "{\r\n" + "  \"errcode\": 200,\r\n" + "  \"status\": \"success\",\r\n"
+		var expectedjson = "{\r\n" + "  \"errcode\": 200,\r\n" + "  \"status\": \"success\",\r\n"
 				+ "  \"message\": \"Valid Admin\",\r\n" + "  \"run\": null\r\n" + "}";
 
 		mockMvc.perform(post("/retail_store/validate-admin").contentType(MediaType.APPLICATION_JSON).content(k))
@@ -57,9 +57,9 @@ public class AdminLoginRestAPITest {
 	public void ValidatingnonAdmin() throws Exception {
 		ad.setUsername("admin");
 		ad.setPassword("admin");
-		String k = "{\r\n" + "     \"username\":\"admkin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
+		var k = "{\r\n" + "     \"username\":\"admkin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
 		// doReturn(r).when(service).validateLogin(ud, m);
-		String expectedjson = "{\r\n" + "  \"errcode\": 404,\r\n" + "  \"status\": \"failure\",\r\n"
+		var expectedjson = "{\r\n" + "  \"errcode\": 404,\r\n" + "  \"status\": \"failure\",\r\n"
 				+ "  \"message\": \"InValid Admin\",\r\n" + "  \"run\": null\r\n" + "}";
 		mockMvc.perform(post("/retail_store/validate-admin").contentType(MediaType.APPLICATION_JSON).content(k))
 				// .accept(MediaType.APPLICATION_JSON))

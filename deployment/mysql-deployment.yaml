@@ -1,0 +1,192 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  #type: NodePort
+  ports:
+    - port: 3306
+      #nodePort: 31000
+  selector:
+    app: mysql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - image: mysql:8
+          name: mysql
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: initdb
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+        - name: initdb
+          configMap:
+            name: mysql-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  MYSQL_DATABASE: retail
+  MYSQL_DATABASE_URL: jdbc:mysql://mysql/retail
+  initdb.sql: |
+    use retail;
+    CREATE TABLE retail_store(Id INT NOT NULL,Category TEXT,Type TEXT,Name TEXT,Brand TEXT,Quantity TEXT,Price INT,Expiry_Date DATE,Stock INT,PRIMARY KEY(id));
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1111,"Cooking_Essentials","Rice","BasmatiRice","Fortune","5kg",265,"2022-09-13",50);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1112,"Cooking_Essentials","Rice","BasmatiRice","Kohinoor authentic","5kg",329,"2023-09-02",30);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1121,"Cooking_Essentials","Rice","SonamasuriRice","24 Mantra Organic","5kg",427,"2022-02-11",22);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1122,"Cooking_Essentials","Rice","SonamasuriRice","Fortune","5kg",265,"2022-04-13",70);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1211,"Cooking_Essentials","OilandGhee","Cooking Oil","Saffola Gold","5lit",799,"2022-12-21",30);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1212,"Cooking_Essentials","OilandGhee","Refined sunflower oil","Fortune","1lit",142,"2022-11-1",20);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1221,"Cooking_Essentials","OilandGhee","Ghee","Mother Dairy","1lit",462,"2021-11-3",34);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1222,"Cooking_Essentials","OilandGhee","Ghee","Ashirvad Svasti","1lit",420,"2021-03-1",10);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1311,"Cooking_Essentials","Salt and spices","Salt","Tata","1kg",18,"2023-03-19",100);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1312,"Cooking_Essentials","Salt and spices","Salt","Tata Salt Lite","1kg",29,"2023-09-23",120);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1321,"Cooking_Essentials","Salt and spices","Garam masala","Vedaka","1kg",580,"2021-12-02",123);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1322,"Cooking_Essentials","Salt and spices","Chilli Powder","Tata Sampann","1kg",250,"2021-3-12",23);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1411,"Cooking_Essentials","Dals","Chana Dal","Vedaka","1kg",103,"2021-05-12",43);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1412,"Cooking_Essentials","Dals","Moong Dal","Tata Sampann","1kg",110,"2022-2-12",30);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1413,"Cooking_Essentials","Dals","Urad Dal","Vedaka","1kg",162,"2022-03-15",35);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1414,"Cooking_Essentials","Dals","Moong Chilka","Organic","1kg",90,"2022-1-1",45);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1511,"Cooking_Essentials","Sugar","Sugar","Mawana","1kg",50,"2022-09-30",230);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1512,"Cooking_Essentials","Sugar","Sugar","Sugarlite","1kg",40,"2022-02-23",130);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1611,"Cooking_Essentials","Atta-flour","Atta","Annapoorna","1kg",50,"2022-03-13",120);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1612,"Cooking_Essentials","Atta-flour","Atta","Bhagyalakshmi","1kg",45,"2021-12-3",150);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1621,"Cooking_Essentials","Atta-flour","Maida Flour","Bhagyalakshmi","1kg",50,"2021-10-3",250);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1622,"Cooking_Essentials","Atta-flour","Wheat Flour","Vedaka","1kg",60,"2022-01-23",210);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (1623,"Cooking_Essentials","Atta-flour","Ragi Flour","Annapoorna","1kg",20,"2022-1-09",240);INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2111,"Snacks-Beverages","Biscuits","Dark Fantacy Chaco fills","Sunfeast","300gm",77,"2023-01-29",5);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2121,"Snacks-Beverages","Biscuits","Mom's Magic Cashew","Sunfeast","600gm",77,"2021-11-2",201);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2131,"Snacks-Beverages","Biscuits","Oreo","Cadbury","300gm",63,"2021-10-2",124);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2141,"Snacks-Beverages","Biscuits","Bourban cream biscuits","Duke","750gm",90,"2022-10-22",140);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2211,"Snacks-Beverages","Health Drinks","Horlicks","Horlicks","750gm",254,"2022-4-21",80);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2221,"Snacks-Beverages","Health Drinks","Cerelac","Nestle","300gm",185,"2021-8-12",210);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2231,"Snacks-Beverages","Health Drinks","Nangrow","Nestle","400gm",494,"2021-8-12",100);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2311,"Snacks-Beverages","Coffee-Tea","Nescafe classic Coffee","Nescafe","100gm",250,"2021-6-28",190);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2321,"Snacks-Beverages","Coffee-Tea","Red label Tea","Brooke Bond","500gm",265,"2021-9-13",410);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2322,"Snacks-Beverages","Coffee-Tea","Chakra Gold Tea","Tata","500gm",288,"2021-11-30",340);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2323,"Snacks-Beverages","Coffee-Tea","3 Roses Tea","Brooke Bond","250gm",180,"2022-01-30",190);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2411,"Snacks-Beverages","Snacks","MadAngles","Bingo","72.5gm",20,"2021-11-22",100);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2421,"Snacks-Beverages","Snacks","Tomato Chips","Bingo","52.5gm",20,"2022-1-22",120);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2431,"Snacks-Beverages","Snacks","Alu bhujiya","Haldiram's","350gm",80,"2021-11-12",80);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2441,"Snacks-Beverages","Snacks","Dry Fruit Mix","Haldiram's","150gm",70,"2021-06-2",110);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2451,"Snacks-Beverages","Snacks","Boondi","Haldiram's","150gm",40,"2021-08-22",130);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3111,"Packaged-Foods","Breakfast Foods","Oats","Quaker","1kg",160,"2021-11-21",230);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3112,"Packaged-Foods","Breakfast Foods","Oats","Suffola Masala","500gm",169,"2021-10-06",127);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3113,"Packaged-Foods","Breakfast Foods","Oats","DiSano","1kg",436,"2022-12-06",72);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3121,"Packaged-Foods","Breakfast Foods","Cornflakes","Kellog's","1kg",149,"2022-02-16",220);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3122,"Packaged-Foods","Breakfast Foods","Caregrow","Nestle","355gm",355,"2021-12-06",120);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3131,"Packaged-Foods","Breakfast Foods","Chacos","Solimo","255gm",275,"2022-4-16",540);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3141,"Packaged-Foods","Breakfast Foods","Chacos","Kellog's","1.2kg",410,"2021-9-6",440);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3211,"Packaged-Foods","Sauces and Spreads","Honey","Dabur","400gm",231,"2021-5-2",75);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3212,"Packaged-Foods","Sauces and Spreads","Honey","Suffola","1kg",440,"2021-6-20",105);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3221,"Packaged-Foods","Sauces and Spreads","Eggless Mayonnaise","del monte","900gm",150,"2021-4-30",325);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3231,"Packaged-Foods","Sauces and Spreads","Ginger Garlic Paste","Dabur","900gm",150,"2021-4-30",325);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3241,"Packaged-Foods","Sauces and Spreads","Red Chilli Sauce","WeikField","200gm",50,"2021-4-14",125);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3251,"Packaged-Foods","Sauces and Spreads","TomatoPuree","Dabur","200gm",20,"2021-3-24",150);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3311,"Packaged-Foods","Ready Meals and Mixes","Rava idli mix","MTR","1kg",134,"2021-4-30",100);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3321,"Packaged-Foods","Ready Meals and Mixes","Dosa mix","MTR","1kg",100,"2021-3-24",190);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3322,"Packaged-Foods","Ready Meals and Mixes","Dosa mix","Tata Sampann","180gm",46,"2021-4-30",30);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3331,"Packaged-Foods","Ready Meals and Mixes","Masala Upma","MTR","180gm",65,"2021-4-4",221);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3341,"Packaged-Foods","Ready Meals and Mixes","Thick Tomato Soup","Knorr","53gm",42,"2021-9-14",21);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3411,"Packaged-Foods","Ready Meals and Mixes","Choclairs","Cadbury","175gm",50,"2021-12-1",40);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3412,"Packaged-Foods","Ready Meals and Mixes","Hot Chacolate","Cadbury","200gm",166,"2022-2-21",120);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4111,"Personal Care","HairCare","Hair Oil","Parachute","1lit",327,"2022-12-21",30);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4112,"Personal Care","HairCare","Hair Oil","Vatika","640ml",200,"2022-2-2",40);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4113,"Personal Care","HairCare","Hair Oil","Induleka","500ml",362,"2021-12-12",50);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4114,"Personal Care","HairCare","Hair Oil","Parachute Ayurvedic","120ml",80,"2022-2-12",59);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4121,"Personal Care","HairCare","Shampoo","Dove","1lit",490,"2022-2-1",60);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4122,"Personal Care","HairCare","Shampoo","Clinic Plus","1lit",400,"2022-12-11",90);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4123,"Personal Care","HairCare","Shampoo","TRESemme","190ml",150,"2021-9-1",93);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4124,"Personal Care","HairCare","Shampoo","Head&Shoulders","600ml",453,"2021-9-12",34);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4131,"Personal Care","HairCare","Conditioners","L'Oreals Paris","190ml",166,"2021-9-19",45);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4132,"Personal Care","HairCare","Conditioners","Head&Shoulders","250ml",230,"2022-2-11",70);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4133,"Personal Care","HairCare","Conditioners","Himalaya","150ml",234,"2022-12-11",410);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4211,"Personal Care","Body Care","Body Lotions","Nivea","400ml",299,"2021-1-21",80);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4212,"Personal Care","Body Care","Body Lotions","Vaseline","400ml",241,"2022-12-02",60);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4213,"Personal Care","Body Care","Body Lotions","Ponds","150ml",239,"2021-10-27",20);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4221,"Personal Care","Body Care","Perfumes","Axe","150ml",140,"2022-10-08",212);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4222,"Personal Care","Body Care","Perfumes","Engage","220ml",224,"2022-11-18",22);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4223,"Personal Care","Body Care","Perfumes","Spinz","100ml",90,"2021-11-18",10);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4224,"Personal Care","Body Care","Perfumes","Beat","250ml",845,"2021-11-01",80);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4231,"Personal Care","Body Care","Deodorants","Fresh","150ml",104,"2021-6-12",120);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4232,"Personal Care","Body Care","Deodorants","Solimo","100ml",248,"2022-6-11",80);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4233,"Personal Care","Body Care","Deodorants","Nivea pearl and beauty","150ml",159,"2022-12-31",30);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4311,"Personal Care","Oral Care","Tooth Paste","Colgate","185gm",122,"2021-11-3",100);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4312,"Personal Care","Oral Care","Tooth Paste","CloseUp","300gm",103,"2021-8-13",190);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4313,"Personal Care","Oral Care","Tooth Paste","Meswak","400gm",125,"2021-9-23",120);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4314,"Personal Care","Oral Care","Tooth Paste","DaburRed","300gm",96,"2021-10-3",50);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4321,"Personal Care","Oral Care","Tooth Brush","Oral-B","1pc",75,"2022-1-13",20);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4322,"Personal Care","Oral Care","Tooth Brush","Colgate","3pc",99,"2022-1-29",120);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4411,"Personal Care","Face Care","Face Wash","Clean&Clear","150ml",175,"2022-9-9",90);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4412,"Personal Care","Face Care","Face Wash","Ponds","200ml",260,"2022-1-1",80);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4421,"Personal Care","Face Care","Lipbalm","Nivea","1.2gm",128,"2021-07-21",30);
+    INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4422,"Personal Care","Face Care","Lipbalm","Maybelline NewYork","4gm",157,"2021-08-15",40);
+    CREATE TABLE Credentials(Username varchar(10) UNIQUE,Password varchar(10));
+    INSERT INTO Credentials(Username,Password) Values ("admin","admin");
+    CREATE TABLE Orders(Username varchar(10),Id INT NOT NULL,Category TEXT,Type TEXT,Name TEXT,Brand TEXT,Quantity TEXT,Price INT,Expiry_Date DATE,Count INT);
+    CREATE TABLE admincredentials(Username varchar(10) UNIQUE,Password varchar(10));

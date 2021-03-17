@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,24 @@ public class GuestUserSearchingTest {
 	@Test
 	public void SearchingByCategory() throws Exception {
 
-		// ListRetailStore
+		RetailStore rt = new RetailStore();
+		List<RetailStore> r = new ArrayList<RetailStore>();
+
+		rt.setCategory("Cooking_Essentials");
+		rt.setId(1111);
+		rt.setBrand("Fortune");
+		rt.setPrice(265);
+		rt.setName("BasmatiRice");
+		rt.setExpiry_Date("2022-09-13T07:00:00.000+00:00");
+		rt.setType("Rice");
+		rt.setQuantity("5kg");
+		rt.setStock(90);
+		r.add(rt);
+		// r.add("category","CookingEssentials");
+
+		// prepared mock service method
+
+		// doReturn(r).when(service).findByCategory(rt.getCategory());
 
 		// doReturn(r).when(service).findAll();
 
@@ -82,13 +100,27 @@ public class GuestUserSearchingTest {
 	@Test
 	public void SearchingByType() throws Exception {
 
+		RetailStore rt = new RetailStore();
+		List<RetailStore> r = new ArrayList<RetailStore>();
+
+		rt.setCategory("Cooking_Essentials");
+		rt.setId(1111);
+		rt.setBrand("Fortune");
+		rt.setPrice(265);
+		rt.setName("BasmatiRice");
+		rt.setExpiry_Date("2022-09-13T07:00:00.000+00:00");
+		rt.setType("Rice");
+		rt.setQuantity("5kg");
+		rt.setStock(90);
+		r.add(rt);
+		// r.add("category","CookingEssentials");
+
+		// prepared mock service method
+
+		// doReturn(r).when(service).findByType(rt.getCategory(), rt.getType());
+
 		// ListRetailStore
 
-		String expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
-				+ "    \"type\": \"Rice\",\r\n" + "    \"quantity\": \"5kg\",\r\n" + "    \"price\": 265,\r\n"
-				+ "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
-				+ "    \"brand\": \"Fortune\",\r\n" + "    \"stock\": 50\r\n" + "  },\r\n" + "  {\r\n"
-				+ "    \"name\": \"BasmatiRice\"  }\r\n" + "]";
 		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(
@@ -102,11 +134,25 @@ public class GuestUserSearchingTest {
 
 		// ListRetailStore
 
-		String expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
-				+ "    \"type\": \"Rice\",\r\n" + "    \"quantity\": \"5kg\",\r\n" + "    \"price\": 265,\r\n"
-				+ "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
-				+ "    \"brand\": \"Fortune\",\r\n" + "    \"stock\": 50\r\n" + "  },\r\n" + "  {\r\n"
-				+ "    \"name\": \"BasmatiRice\"  }\r\n" + "]";
+		RetailStore rt = new RetailStore();
+		List<RetailStore> r = new ArrayList<RetailStore>();
+
+		rt.setCategory("Cooking_Essentials");
+		rt.setId(1111);
+		rt.setBrand("Fortune");
+		rt.setPrice(265);
+		rt.setName("BasmatiRice");
+		rt.setExpiry_Date("2022-09-13T07:00:00.000+00:00");
+		rt.setType("Rice");
+		rt.setQuantity("5kg");
+		rt.setStock(90);
+		r.add(rt);
+		// r.add("category","CookingEssentials");
+
+		// prepared mock service method
+
+		// doReturn(r).when(service).findByName(rt.getCategory(), rt.getType(),
+		// rt.getName());
 		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}/{Name}",
@@ -135,10 +181,7 @@ public class GuestUserSearchingTest {
 		rt.setCategory("Cooking_Essentials");
 		rt.setType("Rice");
 		rt.setName("BasmatiRice");
-		String or = "{\r\n" + "  \"username\": null,\r\n" + "  \"id\": 1111,\r\n"
-				+ "  \"category\": \"Cooking_Essentials\",\r\n" + "  \"type\": \"Rice\",\r\n"
-				+ "  \"name\": \"BasmatiRice\",\r\n" + "  \"brand\": \"Fortune\",\r\n" + "  \"quantity\": \"5kg\",\r\n"
-				+ "  \"price\": 265,\r\n" + "  \"expiry_Date\": \"2022-09-13\",\r\n" + "  \"count\": 5\r\n" + "}";
+
 		String pl = "{\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
 				+ "    \"type\": \"Rice\",\r\n" + "    \"price\": 265,\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
 				+ "    \"quantity\": \"5kg\",\r\n" + "    \"category\": \"Cooking_Essentials\",\r\n"

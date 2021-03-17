@@ -22,11 +22,6 @@ import com.myapp.spring.model.RetailStore;
 import com.myapp.spring.repository.RetailStoreRepository;
 
 @SpringBootTest
-
-//spring context
-//environment
-//loading the beans
-//start the embeded tomcat server
 @AutoConfigureMockMvc
 public class GuestUserSearchingTest {
 	@MockBean
@@ -35,44 +30,16 @@ public class GuestUserSearchingTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	// private static File DATA_JSON = Paths.get("src", "test", "resources",
-	// "retaildata.json").toFile();
-	// RetailStore r[] = null;
-
-	/*
-	 * 
-	 * 
-	 * @BeforeEach / void setup() throws JsonParseException, JsonMappingException,
-	 * IOException { System.out.println("running"); // products =
-	 * (List<RetailStore>[]) new ObjectMapper().readValue(DATA_JSON, //
-	 * RetailStore[].class); r = new ObjectMapper().readValue(DATA_JSON,
-	 * RetailStore[].class);
-	 * 
-	 * }
-	 * 
-	 * String mapToJson(Object obj) throws JsonProcessingException { ObjectMapper
-	 * objectMapper = new ObjectMapper(); return
-	 * objectMapper.writeValueAsString(obj); }
-	 */
-
 	@Test
 	public void SearchingByTheGuestUser() throws Exception {
 
-		// ListRetailStore
-
-		// doReturn(r).when(service).findAll();
-
 		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8989/retail_store/search/search"))
-				// .accept(MediaType.APPLICATION_JSON))
+
 				.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.*", isA(ArrayList.class)));
 	}
 
 	@Test
 	public void SearchingByCategory() throws Exception {
-
-		// ListRetailStore
-
-		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}", "Cooking_Essentials"))
 				// .accept(MediaType.APPLICATION_JSON))
@@ -84,13 +51,6 @@ public class GuestUserSearchingTest {
 
 		// ListRetailStore
 
-		String expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
-				+ "    \"type\": \"Rice\",\r\n" + "    \"quantity\": \"5kg\",\r\n" + "    \"price\": 265,\r\n"
-				+ "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
-				+ "    \"brand\": \"Fortune\",\r\n" + "    \"stock\": 50\r\n" + "  },\r\n" + "  {\r\n"
-				+ "    \"name\": \"BasmatiRice\"  }\r\n" + "]";
-		// doReturn(r).when(service).findAll();
-
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}", "Cooking_Essentials", "Rice"))
 				// .accept(MediaType.APPLICATION_JSON))
@@ -99,15 +59,6 @@ public class GuestUserSearchingTest {
 
 	@Test
 	public void SearchingByName() throws Exception {
-
-		// ListRetailStore
-
-		String expected = "[ {\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
-				+ "    \"type\": \"Rice\",\r\n" + "    \"quantity\": \"5kg\",\r\n" + "    \"price\": 265,\r\n"
-				+ "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
-				+ "    \"brand\": \"Fortune\",\r\n" + "    \"stock\": 50\r\n" + "  },\r\n" + "  {\r\n"
-				+ "    \"name\": \"BasmatiRice\"  }\r\n" + "]";
-		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}/{Name}",
 				"Cooking_Essentials", "Rice", "BasmatiRice"))
@@ -135,10 +86,6 @@ public class GuestUserSearchingTest {
 		rt.setCategory("Cooking_Essentials");
 		rt.setType("Rice");
 		rt.setName("BasmatiRice");
-		String or = "{\r\n" + "  \"username\": null,\r\n" + "  \"id\": 1111,\r\n"
-				+ "  \"category\": \"Cooking_Essentials\",\r\n" + "  \"type\": \"Rice\",\r\n"
-				+ "  \"name\": \"BasmatiRice\",\r\n" + "  \"brand\": \"Fortune\",\r\n" + "  \"quantity\": \"5kg\",\r\n"
-				+ "  \"price\": 265,\r\n" + "  \"expiry_Date\": \"2022-09-13\",\r\n" + "  \"count\": 5\r\n" + "}";
 		String pl = "{\r\n" + "    \"name\": \"BasmatiRice\",\r\n" + "    \"id\": 1111,\r\n"
 				+ "    \"type\": \"Rice\",\r\n" + "    \"price\": 265,\r\n" + "    \"expiry_Date\": \"2022-09-13\",\r\n"
 				+ "    \"quantity\": \"5kg\",\r\n" + "    \"category\": \"Cooking_Essentials\",\r\n"

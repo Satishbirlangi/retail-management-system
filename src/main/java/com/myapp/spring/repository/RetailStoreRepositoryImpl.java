@@ -53,7 +53,7 @@ public class RetailStoreRepositoryImpl implements RetailStoreRepository {
 
 	@Override
 	public List<RetailStore> findByName(String category, String type, String name) {
-		
+
 		List<RetailStore> list = jdbcTemplate.query("select * from retail_store where Category=? and Type=? and Name=?",
 				new BeanPropertyRowMapper<>(RetailStore.class), category, type, name);
 		boolean a = list.isEmpty();

@@ -37,32 +37,8 @@ public class GuestUserSearchingTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	// private static File DATA_JSON = Paths.get("src", "test", "resources",
-	// "retaildata.json").toFile();
-	// RetailStore r[] = null;
-
-	/*
-	 * 
-	 * 
-	 * @BeforeEach / void setup() throws JsonParseException, JsonMappingException,
-	 * IOException { System.out.println("running"); // products =
-	 * (List<RetailStore>[]) new ObjectMapper().readValue(DATA_JSON, //
-	 * RetailStore[].class); r = new ObjectMapper().readValue(DATA_JSON,
-	 * RetailStore[].class);
-	 * 
-	 * }
-	 * 
-	 * String mapToJson(Object obj) throws JsonProcessingException { ObjectMapper
-	 * objectMapper = new ObjectMapper(); return
-	 * objectMapper.writeValueAsString(obj); }
-	 */
-
 	@Test
 	public void SearchingByTheGuestUser() throws Exception {
-
-		// ListRetailStore
-
-		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8989/retail_store/search/search"))
 				// .accept(MediaType.APPLICATION_JSON))
@@ -85,13 +61,8 @@ public class GuestUserSearchingTest {
 		rt.setQuantity("5kg");
 		rt.setStock(90);
 		r.add(rt);
-		// r.add("category","CookingEssentials");
-
-		// prepared mock service method
 
 		doReturn(r).when(service).findByCategory(rt.getCategory());
-
-		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}", "Cooking_Essentials"))
 				// .accept(MediaType.APPLICATION_JSON))
@@ -114,15 +85,8 @@ public class GuestUserSearchingTest {
 		rt.setQuantity("5kg");
 		rt.setStock(90);
 		r.add(rt);
-		// r.add("category","CookingEssentials");
-
-		// prepared mock service method
 
 		doReturn(r).when(service).findByType(rt.getCategory(), rt.getType());
-
-		// ListRetailStore
-
-		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}", "Cooking_Essentials", "Rice"))
@@ -132,8 +96,6 @@ public class GuestUserSearchingTest {
 
 	@Test
 	public void SearchingByName() throws Exception {
-
-		// ListRetailStore
 
 		RetailStore rt = new RetailStore();
 		List<RetailStore> r = new ArrayList<RetailStore>();
@@ -148,12 +110,8 @@ public class GuestUserSearchingTest {
 		rt.setQuantity("5kg");
 		rt.setStock(90);
 		r.add(rt);
-		// r.add("category","CookingEssentials");
-
-		// prepared mock service method
 
 		doReturn(r).when(service).findByName(rt.getCategory(), rt.getType(), rt.getName());
-		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}/{Name}",
 				"Cooking_Essentials", "Rice", "BasmatiRice"))

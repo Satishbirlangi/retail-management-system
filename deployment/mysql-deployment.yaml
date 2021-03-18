@@ -103,7 +103,7 @@ data:
     INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (2111,"Snacks-Beverages","Biscuits","Dark Fantacy Chaco fills","Sunfeast","300gm",77,"2023-01-29",5);
     INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (3121,"Packaged-Foods","Breakfast Foods","Cornflakes","Kellog's","1kg",149,"2022-02-16",220);
     INSERT INTO retail_store(Id,Category,Type,Name,Brand,Quantity,Price,Expiry_Date,Stock) Values (4111,"Personal Care","HairCare","Hair Oil","Parachute","1lit",327,"2022-12-21",30);
-    CREATE TABLE order(Username TEXT,Id INT NOT NULL,Category TEXT,Type TEXT,Name TEXT,Brand TEXT,Quantity TEXT,Price INT,Expiry_Date DATE,Stock INT,PRIMARY KEY(id));
+    CREATE TABLE orders(Username TEXT,Id INT NOT NULL,Category TEXT,Type TEXT,Name TEXT,Brand TEXT,Quantity TEXT,Price INT,Expiry_Date DATE,Stock INT,PRIMARY KEY(id));
     CREATE TABLE credentials(Username varchar (10), Password varchar (10));
     INSERT INTO credentials Values("admin","admin");
     

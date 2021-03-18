@@ -18,7 +18,7 @@ public class AdminLoginRepositoryImpl implements AdminLoginRepository {
 
 	@Override
 	public AdminData validateLoggedInAdmin(String userName) {
-		// TODO Auto-generated method stub
+
 		System.out.println("input login id:" + userName);
 		String SQL = "SELECT * FROM ADMINCREDENTIALS WHERE USERNAME = ?";
 

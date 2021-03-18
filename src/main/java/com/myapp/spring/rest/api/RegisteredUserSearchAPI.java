@@ -67,7 +67,7 @@ public class RegisteredUserSearchAPI {
 	}
 
 	@GetMapping("/reg_search/{Category}/{Type}/{Name}")
-	public List<RetailStore> findByType(@PathVariable("Category") String Category, @PathVariable("Type") String Type,
+	public List<RetailStore> findByName(@PathVariable("Category") String Category, @PathVariable("Type") String Type,
 			@PathVariable("Name") String Name, HttpServletRequest request) {
 		Object isValidUser = request.getSession().getAttribute("isAuthenticated");
 

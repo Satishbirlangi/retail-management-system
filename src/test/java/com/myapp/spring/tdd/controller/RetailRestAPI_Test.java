@@ -254,19 +254,6 @@ public class RetailRestAPI_Test {
 		rt1.setStock(5);
 		r.add(rt1);
 
-		// rt.setCategory("Personal Care");
-		// r.add(rt);
-
-		// rt.setCategory("Packaged-Foods");
-		// r.add(rt);
-
-		// rt.setCategory("Snacks-Beverages");
-		// r.add(rt);
-
-		// r.add("category","CookingEssentials");
-
-		// prepared mock service method
-
 		doReturn(r).when(service).findAll();
 
 		// perform get request
@@ -287,30 +274,6 @@ public class RetailRestAPI_Test {
 				.andExpect(jsonPath("$[1].quantity", is("300gm")))
 				.andExpect(jsonPath("$[1].expiry_Date", is("2023-01-29")));
 
-		// validate response body
-
-		// {"id":1,"airlines":"Airindia","distance":789}
-
-		/*
-		 * .andExpect(jsonPath("$[0].category",
-		 * is("Cooking_Essentials"))).andExpect(jsonPath("$[0].id", is(1111)))
-		 * .andExpect(jsonPath("$[0].brand",
-		 * is("Fortune"))).andExpect(jsonPath("$[0].price", is(265)))
-		 * .andExpect(jsonPath("$[0].name",
-		 * is("BasmatiRice"))).andExpect(jsonPath("$[0].type", is("Rice")))
-		 * .andExpect(jsonPath("$[0].stock",
-		 * is(90))).andExpect(jsonPath("$[0].quantity", is("5kg")))
-		 * .andExpect(jsonPath("$[0].expiry_Date",
-		 * is("2022-09-13T07:00:00.000+00:00")));
-		 */
-		/*
-		 * is(" {\r\n" + "    \"id\": 1111,\r\n" +
-		 * "    \"category\": \"Cooking_Essentials\",\r\n" + "    \"price\": 265,\r\n" +
-		 * "    \"brand\": \"Fortune\",\r\n" +
-		 * "    \"expiry_Date\": \"2022-09-13T07:00:00.000+00:00\",\r\n" +
-		 * "    \"quantity\": \"5kg\",\r\n" + "    \"name\": \"BasmatiRice\",\r\n" +
-		 * "    \"type\": \"Rice\",\r\n" + " \"stock\":90\r\n" + "}")));
-		 */
 	}
 
 	@Test

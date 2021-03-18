@@ -22,7 +22,7 @@ public class UserLoginRepositoryImpl implements UserLoginRepository {
 	public UserData validateLoggedInUser(String userName) {
 
 		System.out.println("input login id:" + userName);
-		String SQL = "SELECT * FROM CREDENTIALS WHERE USERNAME = ?";
+		String SQL = "SELECT * FROM credentials WHERE USERNAME = ?";
 
 		return jdbcTemplate.query(SQL, new Object[] { userName }, new ResultSetExtractor<UserData>() {
 

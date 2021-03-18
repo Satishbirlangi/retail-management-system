@@ -1,34 +1,59 @@
 package com.myapp.spring.tdd.repository;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.myapp.spring.model.AdminData;
+import com.myapp.spring.service.AdminLoginService;
 
 public class validatingAdmin {
-	@MockBean
-	private AdminData ad;
+	boolean expectedStatus = true;
+	@Mock
+	AdminLoginService adminloginservice;
 
-	@Test
-	@DisplayName("Validating admin")
-	public void ValidatingAdmin() {
-		AdminData ad = new AdminData();
-		ad.setUsername("admin");
-		ad.setPassword("admin");
-		AdminData ad1 = new AdminData();
-		ad1.setUsername("admin");
-		ad1.setPassword("admin");
+	AdminData inputData;
 
-		assertNotNull(ad);
-		assertSame("admin", ad.getPassword());
-		assertSame("admin", ad.getUsername());
-		assertSame("admin", ad1.getPassword());
-		assertSame("admin", ad1.getUsername());
+	@SuppressWarnings("deprecation")
+	@BeforeEach
+	void setup() throws Exception {
+
+		MockitoAnnotations.initMocks(this);
+
+		inputData = new AdminData();
+		inputData.setUsername("admin");
+		inputData.setPassword("admin");
 
 	}
 
+	@Test
+	public void testvalidatingAdmin() throws Exception {
+
+		String pass = inputData.getPassword();
+
+		System.out.println("UserName::" + inputData.getUsername());
+
+		when(adminloginservice.validateAdmin(inputData)).thenReturn(true);
+
+		boolean actualStatus = adminloginservice.validateAdmin(inputData);
+
+		assertEquals(actualStatus, expectedStatus);
+		verify(adminloginservice).validateAdmin(inputData);
+	}
+
+	@Test
+	public void validatingnonAdmin() throws Exception {
+
+		System.out.println("UserName::" + inputData.getUsername());
+		inputData.setUsername("gayi");
+		when(adminloginservice.validateAdmin(inputData)).thenReturn(false);
+		assertEquals(false, adminloginservice.validateAdmin(inputData));
+		verify(adminloginservice).validateAdmin(inputData);
+
+	}
 }

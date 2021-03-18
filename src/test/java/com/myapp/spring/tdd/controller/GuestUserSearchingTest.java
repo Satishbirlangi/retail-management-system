@@ -1,6 +1,7 @@
 package com.myapp.spring.tdd.controller;
 
 import static org.hamcrest.CoreMatchers.isA;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,7 +89,7 @@ public class GuestUserSearchingTest {
 
 		// prepared mock service method
 
-		// doReturn(r).when(service).findByCategory(rt.getCategory());
+		doReturn(r).when(service).findByCategory(rt.getCategory());
 
 		// doReturn(r).when(service).findAll();
 
@@ -117,7 +118,7 @@ public class GuestUserSearchingTest {
 
 		// prepared mock service method
 
-		// doReturn(r).when(service).findByType(rt.getCategory(), rt.getType());
+		doReturn(r).when(service).findByType(rt.getCategory(), rt.getType());
 
 		// ListRetailStore
 
@@ -151,8 +152,7 @@ public class GuestUserSearchingTest {
 
 		// prepared mock service method
 
-		// doReturn(r).when(service).findByName(rt.getCategory(), rt.getType(),
-		// rt.getName());
+		doReturn(r).when(service).findByName(rt.getCategory(), rt.getType(), rt.getName());
 		// doReturn(r).when(service).findAll();
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/retail_store/search/{Category}/{Type}/{Name}",

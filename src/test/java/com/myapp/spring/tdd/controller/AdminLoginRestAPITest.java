@@ -1,10 +1,15 @@
 package com.myapp.spring.tdd.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,8 +19,12 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myapp.spring.model.AdminData;
 import com.myapp.spring.responseType.ResponseType;
+import com.myapp.spring.rest.api.AdminLoginRestAPI;
 
 @SpringBootTest
 
@@ -23,40 +32,45 @@ import com.myapp.spring.responseType.ResponseType;
 public class AdminLoginRestAPITest {
 
 	@MockBean
-	private AdminLoginRestAPITest service;
 	ResponseType r = new ResponseType();
 	MockHttpServletRequest m;
 	@Autowired
 	private MockMvc mockMvc;
+	private AdminLoginRestAPI service;
+	private static File DATA_JSON = Paths.get("src", "test", "resources", "admin.json").toFile();
 
-	AdminData user[] = null;
-	AdminData ad = new AdminData();
+	@BeforeEach
+	void setup() throws JsonParseException, JsonMappingException, IOException {
+
+	}
 
 	@Test
 	public void ValidatingAdmin() throws Exception {
+		AdminData ad = new AdminData();
+
 		ad.setUsername("admin");
 		ad.setPassword("admin");
-		String k = "{\r\n" + "     \"username\":\"admin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
 
-		String expectedjson = "{\r\n" + "  \"errcode\": 200,\r\n" + "  \"status\": \"success\",\r\n"
-				+ "  \"message\": \"Valid Admin\",\r\n" + "  \"run\": null\r\n" + "}";
+		doReturn(r).when(service).validateLogin(ad, m);
+		mockMvc.perform(post("/retail_store/validate-admin", ad, m).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(new ObjectMapper().writeValueAsString(ad)))
 
-		mockMvc.perform(post("/retail_store/validate-admin").contentType(MediaType.APPLICATION_JSON).content(k))
+				.andExpect(status().isCreated());
 
-				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(expectedjson));
+		assertEquals(true, r.getMessage());
+
 	}
 
 	@Test
 	public void ValidatingnonAdmin() throws Exception {
-		ad.setUsername("admin");
+
+		AdminData ad = new AdminData();
+
+		ad.setUsername("admfin");
 		ad.setPassword("admin");
-		String k = "{\r\n" + "     \"username\":\"admkin\",\r\n" + "    \"password\":\"admin\"\r\n" + "  }";
 
-		String expectedjson = "{\r\n" + "  \"errcode\": 404,\r\n" + "  \"status\": \"failure\",\r\n"
-				+ "  \"message\": \"InValid Admin\",\r\n" + "  \"run\": null\r\n" + "}";
-		mockMvc.perform(post("/retail_store/validate-admin").contentType(MediaType.APPLICATION_JSON).content(k))
+		// doReturn(r).when(service).validateLogin(ad.getUsername());
+		assertEquals(false, r.getMessage());
 
-				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(expectedjson));
 	}
-
 }

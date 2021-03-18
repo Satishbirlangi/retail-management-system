@@ -23,8 +23,6 @@ public class UserLoginRepositoryImpl implements UserLoginRepository {
 
 		System.out.println("input login id:" + userName);
 		String SQL = "SELECT * FROM CREDENTIALS WHERE USERNAME = ?";
-		// return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(UserData.class),
-		// userName);
 
 		return jdbcTemplate.query(SQL, new Object[] { userName }, new ResultSetExtractor<UserData>() {
 

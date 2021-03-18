@@ -8,7 +8,7 @@ import com.myapp.spring.repository.UserLoginRepository;
 
 @Service("userloginservice")
 public class UserLoginService {
-	public String luname;
+	String luname;
 	@Autowired
 	UserLoginRepository repository;
 

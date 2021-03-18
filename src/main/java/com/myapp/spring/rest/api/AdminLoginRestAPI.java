@@ -23,8 +23,7 @@ public class AdminLoginRestAPI {
 	public @ResponseBody ResponseType validateLogin(@RequestBody AdminData adminData, HttpServletRequest request) {
 
 		ResponseType respType = new ResponseType();
-		// String userName = request.getParameter("userName");
-		// String pwd = request.getParameter("pwd");
+
 		System.out.println("UserName:::" + adminData.getUsername() + " ::Password::" + adminData.getPassword());
 
 		boolean status = adminloginservice.validateAdmin(adminData);

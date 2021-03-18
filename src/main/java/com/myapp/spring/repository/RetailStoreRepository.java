@@ -9,16 +9,14 @@ public interface RetailStoreRepository {
 
 	List<RetailStore> findAll();
 
-	List<RetailStore> findByCategory(String Category);
+	List<RetailStore> findByCategory(String category);
 
-	List<RetailStore> findByType(String Category, String Type);
+	List<RetailStore> findByType(String category, String type);
 
-	List<RetailStore> findByName(String Category, String Type, String Name);
+	List<RetailStore> findByName(String category, String type, String name);
 
-	Orders placedOrder(String Category, String Type, String Name, Orders order);
+	Orders placedOrder(String category, String type, String name, Orders order);
 
-//	Orders finalOrder(String Category, String Type, String Name);
-
-	Orders reguserplacedOrder(String Category, String Type, String Name, Orders order);
+	Orders reguserplacedOrder(String category, String type, String name, Orders order);
 
 }

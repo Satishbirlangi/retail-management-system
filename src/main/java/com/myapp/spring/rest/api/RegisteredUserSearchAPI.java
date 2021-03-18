@@ -86,9 +86,7 @@ public class RegisteredUserSearchAPI {
 			@PathVariable("Name") String Name, @RequestBody Orders Ord, HttpServletRequest request) {
 		Object oun = Ord.getUsername();
 		Object run = request.getSession().getAttribute("registeredusername");
-		// Object rlun = f.rlun.toString();
-		// System.out.println(oun);
-		// System.out.println(run);
+
 		Object isValidUser = request.getSession().getAttribute("isAuthenticated");
 		System.out.println("isValidUser:" + isValidUser);
 		if (isValidUser != null && oun.equals(run) && Ord.getCategory().equals(Category) && Ord.getType().equals(Type)

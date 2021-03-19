@@ -12,7 +12,7 @@
 	<artifactId>retail-management-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>retail-management-system</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo project for Retail Managament System</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<surefire.version>2.17</surefire.version>

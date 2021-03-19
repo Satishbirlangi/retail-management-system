@@ -80,7 +80,7 @@ public class RegisteredUserSearchAPI {
 		}
 		return null;
 	}
-
+//commented
 	@PostMapping("/reg_search/{Category}/{Type}/{Name}/RegUseraddtocart")
 	public Orders reguserplacedOrder(@PathVariable("Category") String Category, @PathVariable("Type") String Type,
 			@PathVariable("Name") String Name, @RequestBody Orders Ord, HttpServletRequest request) {

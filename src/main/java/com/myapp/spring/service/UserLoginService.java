@@ -8,18 +8,21 @@ import com.myapp.spring.repository.UserLoginRepository;
 
 @Service("userloginservice")
 public class UserLoginService {
-
+	String luname;
 	@Autowired
 	UserLoginRepository repository;
 
-	public boolean validateUser(UserData userInputData) {
+	public boolean validateLogin(UserData userInputData) {
 		UserData userData = repository.validateLoggedInUser(userInputData.getUsername());
+
 		System.out.println("UserData::" + userData);
 		if (userData != null) {
 			if (userInputData.getPassword().equals(userData.getPassword())) {
+				luname = userData.getUsername();
 				return true;
 			}
 		}
 		return false;
 	}
+
 }

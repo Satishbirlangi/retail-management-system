@@ -5,6 +5,7 @@ public class ResponseType {
 	private int errcode;
 	private String status;
 	private String message;
+	private String run;
 
 	public int getErrcode() {
 		return errcode;
@@ -28,6 +29,21 @@ public class ResponseType {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getRun() {
+		return run;
+	}
+
+	public void setRun(String run) {
+		this.run = run;
+	}
+
+	public ResponseType(String run) {
+		this.run = run;
+	}
+
+	public ResponseType() {
 	}
 
 }

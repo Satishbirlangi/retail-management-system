@@ -16,14 +16,13 @@ public class UserLoginRepositoryImpl implements UserLoginRepository {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	String rlun;
 
 	@Override
 	public UserData validateLoggedInUser(String userName) {
 
 		System.out.println("input login id:" + userName);
-		String SQL = "SELECT * FROM CREDENTIALS WHERE USERNAME = ?";
-		// return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(UserData.class),
-		// userName);
+		String SQL = "SELECT * FROM credentials WHERE USERNAME = ?";
 
 		return jdbcTemplate.query(SQL, new Object[] { userName }, new ResultSetExtractor<UserData>() {
 
@@ -31,6 +30,8 @@ public class UserLoginRepositoryImpl implements UserLoginRepository {
 			public UserData extractData(ResultSet rs) throws SQLException, DataAccessException {
 				UserData userData = new UserData();
 				while (rs.next()) {
+					userData.setUsername(rs.getString("username"));
+					rlun = userData.getUsername();
 					userData.setPassword(rs.getString("password"));
 				}
 				return userData;

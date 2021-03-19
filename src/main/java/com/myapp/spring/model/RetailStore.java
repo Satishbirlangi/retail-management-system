@@ -1,113 +1,111 @@
 package com.myapp.spring.model;
 
-import java.util.Date;
-
 public class RetailStore {
 
-	private Integer Id;
+	private Integer itemId;
 
-	private String Category;
-
-	private String Type;
-
-	private String Name;
-
-	private String Brand;
-
-	private String Quantity;
-
-	private Integer Price;
-
-	private Date Expiry_Date;
-
-	private Integer Stock;
-
-	public RetailStore() {
-	}
-
-	public RetailStore(Integer Id, String Category, String Type, String Name, String Brand, String Quantity,
-			Integer Price, Date Expiry_Date, Integer Stock) {
-		this.Id = Id;
-		this.Category = Category;
-		this.Type = Type;
-		this.Name = Name;
-		this.Brand = Brand;
-		this.Quantity = Quantity;
-		this.Price = Price;
-		this.Expiry_Date = Expiry_Date;
-		this.Stock = Stock;
-	}
+	private String itemCategory;
 
 	public Integer getId() {
-		return Id;
+		return itemId;
 	}
 
-	public void setId(Integer Id) {
-		this.Id = Id;
+	public void setId(Integer id) {
+		itemId = id;
 	}
 
 	public String getCategory() {
-		return Category;
+		return itemCategory;
 	}
 
-	public void setCategory(String Category) {
-		this.Category = Category;
+	public void setCategory(String category) {
+		itemCategory = category;
 	}
 
 	public String getType() {
-		return Type;
+		return itemType;
 	}
 
-	public void setType(String Type) {
-		this.Type = Type;
+	public void setType(String type) {
+		itemType = type;
 	}
 
 	public String getName() {
-		return Name;
+		return itemName;
 	}
 
-	public void setName(String Name) {
-		this.Name = Name;
+	public void setName(String name) {
+		itemName = name;
 	}
 
 	public String getBrand() {
-		return Brand;
+		return itemBrand;
 	}
 
-	public void setBrand(String Brand) {
-		this.Brand = Brand;
+	public void setBrand(String brand) {
+		itemBrand = brand;
 	}
 
 	public String getQuantity() {
-		return Quantity;
+		return itemQuantity;
 	}
 
-	public void setQuantity(String Quantity) {
-		this.Quantity = Quantity;
+	public void setQuantity(String quantity) {
+		itemQuantity = quantity;
 	}
 
 	public Integer getPrice() {
-		return Price;
+		return itemPrice;
 	}
 
-	public void setPrice(Integer Price) {
-		this.Price = Price;
+	public void setPrice(Integer price) {
+		itemPrice = price;
 	}
 
-	public Date getExpiry_Date() {
-		return Expiry_Date;
+	public String getExpiry_Date() {
+		return itemExpiryDate;
 	}
 
-	public void setExpiry_Date(Date Expiry_Date) {
-		this.Expiry_Date = Expiry_Date;
+	public void setExpiry_Date(String expiryDate) {
+		itemExpiryDate = expiryDate;
 	}
 
 	public Integer getStock() {
-		return Stock;
+		return itemStock;
 	}
 
-	public void setStock(Integer Stock) {
-		this.Stock = Stock;
+	public void setStock(Integer stock) {
+		itemStock = stock;
+	}
+
+	public RetailStore(Integer id, String category, String type, String name, String brand, String quantity,
+			Integer price, String expiryDate, Integer stock) {
+		itemId = id;
+		itemCategory = category;
+		itemType = type;
+		itemName = name;
+		itemBrand = brand;
+		itemQuantity = quantity;
+		itemPrice = price;
+		itemExpiryDate = expiryDate;
+		itemStock = stock;
+	}
+
+	private String itemType;
+
+	private String itemName;
+
+	private String itemBrand;
+
+	private String itemQuantity;
+
+	private Integer itemPrice;
+
+	private String itemExpiryDate;
+
+	private Integer itemStock;
+
+	public RetailStore() {
 	}
 
 }
